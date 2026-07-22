@@ -1,0 +1,32 @@
+<server description="gymControl">
+    <featureManager>
+        <feature>webProfile-10.0</feature>
+        <feature>persistence-3.1</feature>
+    </featureManager>
+
+    <basicRegistry id="defaultBasicRegistry" realm="BasicRealm">
+        <user name="admin" password="admin123" />
+    </basicRegistry>
+
+    <keyStore id="defaultKeyStore" password="password" />
+
+    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443" />
+
+    <!-- Biblioteca del driver PostgreSQL -->
+    <library id="postgresLib">
+        <fileset dir="${shared.resource.dir}/postgres" includes="*.jar"/>
+    </library>
+
+    <!-- DataSource PostgreSQL -->
+    <dataSource id="gymDS" jndiName="jdbc/gymDS">
+        <jdbcDriver libraryRef="postgresLib"/>
+        <properties.postgresql
+            serverName="${env.DB_HOST}"
+            portNumber="${env.DB_PORT}"
+            databaseName="${env.DB_NAME}"
+            user="${env.DB_USER}"
+            password="${env.DB_PASSWORD}"/>
+    </dataSource>
+
+    <webApplication location="gymControl.war" contextRoot="/"/>
+</server>
